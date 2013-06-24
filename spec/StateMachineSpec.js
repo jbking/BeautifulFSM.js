@@ -86,7 +86,7 @@ describe("A StateMachine", function () {
   it("can destroy which disable their event dispatch.", function () {
     var foo_leave;
     obj.on('fsm:foo:leave', function () { foo_leave = true; });
-    obj.destroy();
+    BeautifulFSM.StateMachine.destroy(obj);
     obj.trigger('ev');
     expect(foo_leave).toBeUndefined();
   });

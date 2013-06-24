@@ -64,6 +64,7 @@
         var errorHandlerKey = 'BeautifulFSM::StateMachine::error';
         var queueKey = 'BeautifulFSM::StateMachine::queue';
         var traceKey = 'BeautifulFSM::StateMachine::trace';
+        var destroyKey = 'BeautifulFSM::StateMachine::destroy';
         StateMachine.create = function create(object, definition, options) {
           definition.events = definition.events || [];
           if (object.state) {
@@ -107,17 +108,12 @@
             targets[entry.id].on(entry.name, handler);
             entry.handler = handler;
           });
-          // instantiate destroy method.
-          if (object.destroy) {
-            if (hasConsoleWarn) {
-              console.warn("hide existing context's destroy");
-            }
-          }
-          object.destroy = function destroy() {
+          object.on(destroyKey, function f() {
+            object.off(destroyKey, f);
             entries.forEach(function (entry) {
               targets[entry.id].off(entry.name, entry.handler);
             });
-          };
+          });
           // instantiate transit method.
           if (object.transit) {
             if (hasConsoleWarn) {
@@ -132,6 +128,9 @@
           object[errorHandlerKey] = definition.error || function () {};
           object[queueKey] = [];
           object[traceKey] = definition.trace || false;
+        };
+        StateMachine.destroy = function destroy(fsm) {
+          fsm.trigger(destroyKey);
         };
         StateMachine.manualTransition = function manualTransition(next) {
           var args = Array_from(arguments);
