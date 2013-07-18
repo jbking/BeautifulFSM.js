@@ -72,7 +72,7 @@
               console.warn("hide existing context's state");
             }
           }
-          BeautifulProperties.Hookable.define(object, 'state', {}, {value: {name: definition.initial}});
+          BeautifulProperties.Hookable.define(object, 'state', null, {value: {name: definition.initial}});
           BeautifulProperties.Versionizable.define(object, 'state', (options || {}).versionizable);
 
           var target = definition.delegatee || object;
@@ -199,7 +199,7 @@
 
           if (state.name === spec.to) {
             args.unshift('fsm:' + state.name + ':cyclic');
-            this.triggerWithBubbling.apply(context, args);
+            this.trigger.apply(context, args);
             args.shift();
             state.from = state.name;
           } else {
@@ -211,14 +211,14 @@
 
             context.successor = successor;
             args.unshift('fsm:' + predecessor.name + ':leave');
-            this.triggerWithBubbling.apply(context, args);
+            this.trigger.apply(context, args);
             delete context.successor;
             args.shift();
 
             context.state = state = successor;
             context.predecessor = predecessor;
             args.unshift('fsm:' + successor.name + ':enter');
-            this.triggerWithBubbling.apply(context, args);
+            this.trigger.apply(context, args);
             delete context.predecessor;
             args.shift();
 
@@ -226,7 +226,7 @@
             this.state = context.state;
           }
           args.unshift('fsm:' + state.name + ':at');
-          this.triggerWithBubbling.apply(context, args);
+          this.trigger.apply(context, args);
           args.shift();
         };
         StateMachine.dev = Object.create(null);
