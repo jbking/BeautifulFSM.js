@@ -72,7 +72,7 @@
               console.warn("hide existing context's state");
             }
           }
-          BeautifulProperties.Hookable.define(object, 'state', null, {value: {name: definition.initial}});
+          BeautifulProperties.Hookable.define(object, 'state', {value: {name: definition.initial}});
           BeautifulProperties.Versionizable.define(object, 'state', (options || {}).versionizable);
 
           var target = definition.delegatee || object;
