@@ -6,26 +6,7 @@
  * Dual licensed under the MIT (MIT-LICENSE.txt)
  * and GPL (GPL-LICENSE.txt) licenses.
  */
-declare module BeautifulProperties {
-  interface Event {
-  }
-
-  module Hookable {
-    interface Option {
-      value: any;
-    }
-    function define(object: any, key: string, options: Option): void;
-  }
-
-  module Versionizable {
-    interface Option {
-      length: number;
-    }
-    function define(object: any, key: string, options: Option): void;
-    function getVersions(object: any, key: string): any[];
-  }
-}
-
+/// <reference path="../lib/BeautifulProperties.d.ts" />
 module BeautifulFSM {
   export module util {
     export var Array_from: (IArguments) => any[] = (function () {
